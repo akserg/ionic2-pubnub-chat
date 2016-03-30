@@ -1,0 +1,31 @@
+<ion-navbar *navbar>
+    <button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Chat</ion-title>
+</ion-navbar>
+
+<ion-toolbar id="subtle-footer">
+    <form [ngFormModel]="messageForm" (ngSubmit)="sendMessage(messageForm.value)">
+        <ion-textarea placeholder="Type your message here" ngControl="message"></ion-textarea>
+    </form>
+</ion-toolbar>
+
+<ion-content class="has-header content-stable">
+    <ion-list>
+        <ion-item *ngFor="#content of messages" class="messages">
+            <h2>{{content.content}}</h2>
+            <p>{{content.date | WebRTCDate}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<!--<ion-footer-bar keyboard-attach class="bar-stable">
+    <ion-toolbar id="subtle-footer">
+        <form [ngFormModel]="messageForm" (ngSubmit)="sendMessage(messageForm.value)">
+            <ion-textarea placeholder="Type your message here" ngControl="message"></ion-textarea>
+        </form>
+    </ion-toolbar>
+</ion-footer-bar>-->
+    
+
