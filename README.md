@@ -1,11 +1,12 @@
-# Mobile WebRTC Chat based on PubNub Data Stream Network and Angular 2
+Mobile WebRTC Chat based on PubNub and Angular 2
+===============================
 
-There is a simple mobile chat based on [PubNub Data Stream Network](https://www.pubnub.com) and Angular 2 for demonstrate how combine thwm together inside Ionic 2 application. 
+There is a simple mobile chat based on [PubNub Data Stream Network](https://www.pubnub.com) and [Angular 2](https://angular.io) for demonstrate how combine them together inside [Ionic 2](http://ionic.io/2) project. 
 
 ### Prerequisite
 
- 1. Check the 'Get Started' link on [PubNub](https://www.pubnub.com) to organise free account for you
- 2. Install lates [Ionic 2 CLI](http://ionicframework.com/docs/v2/getting-started/installation)
+ 1. Check the 'Get Started' link on [PubNub](https://www.pubnub.com) to register free account
+ 2. Install latest [Ionic 2 CLI](http://ionicframework.com/docs/v2/getting-started/installation)
 
 ### Testing Locally
 
@@ -25,17 +26,17 @@ Run following shell script to install NPM modules
 npm i
 ```
 
-Add Android or IOS platform
+Add Android or IOS platform to your project
 ```bash
 ionic platform add ios android
 ```
 
-Build project for specified platform
+Build project for specified platforms
 ```bash
 ionic build
 ```
 
-Explore project in your browser
+Explore project in your local web browser
 ```bash
 ionic serve
 ```
