@@ -43,5 +43,5 @@ ionic serve
 
 ### Credits
 
-[PubNub Data Stream Network](https://www.pubnub.com)
-[Angular 2](https://angular.io)
+- [PubNub Data Stream Network](https://www.pubnub.com)
+- [Angular 2](https://angular.io)
