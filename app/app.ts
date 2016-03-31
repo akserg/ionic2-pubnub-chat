@@ -3,7 +3,7 @@ import 'es6-shim';
 import {App, IonicApp, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 
-import {WebRTCService} from './common/webrtc.service';
+import {PubNubService} from './common/pubnub.service';
 import {WebRTCDatePipe} from './common/date.pipe';
 
 import {GettingStartedPage} from './pages/getting-started/getting-started';
@@ -13,7 +13,7 @@ import {ChatPage} from './pages/chat/chat';
 
 @App({
     templateUrl: 'build/app.html',
-    providers: [WebRTCService],
+    providers: [PubNubService],
     pipes: [WebRTCDatePipe],
     config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
@@ -21,7 +21,7 @@ class MyApp {
     rootPage: any = ChatPage;
     pages: Array<{ title: string, component: any }>
 
-    constructor(private app: IonicApp, private platform: Platform, private webRTCService: WebRTCService) {
+    constructor(private app: IonicApp, private platform: Platform, private pubNubService: PubNubService) {
         this.initializeApp();
 
         // used for an example of ngFor and navigation
@@ -39,7 +39,7 @@ class MyApp {
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
             // Initialise WebRTC service when the platform is ready
-            this.webRTCService.initialize();
+            // this.pubNubService.init();
         });
     }
 

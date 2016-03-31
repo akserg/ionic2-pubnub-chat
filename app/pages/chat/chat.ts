@@ -1,7 +1,7 @@
 import {Platform, Page, NavController, NavParams} from 'ionic-angular';
 import { FORM_DIRECTIVES, FormBuilder,  ControlGroup, Validators, AbstractControl, Control } from 'angular2/common';
 
-import {WebRTCService} from '../../common/webrtc.service';
+import {PubNubService, PubNubEvent} from '../../common/pubnub.service';
 import {WebRTCDatePipe} from '../../common/date.pipe';
 
 @Page({
@@ -18,7 +18,7 @@ export class ChatPage {
     messages:Array<any> = ['1', '2'];
     uuid:string;
     
-    constructor(private platform: Platform, private webRTCService:WebRTCService, private fb:FormBuilder) {
+    constructor(private platform: Platform, private pubNubService:PubNubService, private fb:FormBuilder) {
         // Generating a random uuid between 1 and 100 using utility function from lodash library.
         this.uuid = Math.floor((Math.random() * 100)).toString();
         // Create reference to message field
@@ -31,25 +31,27 @@ export class ChatPage {
     onPageWillEnter() {
         this.platform.ready().then(() => {
             // Get history for channel
-            this.webRTCService.history(this.channel, (result:Array<any>) => {
+            this.pubNubService.history(this.channel).subscribe((event: PubNubEvent) => {
                 let messages:Array<any> = [];
-                for (let i = 0; i < result[0].length; i++) {
-                    messages.push(this.createMessage(result[0][i].message));
+                for (let i = 0; i < event.value[0].length; i++) {
+                    messages.push(this.createMessage(event.value[0][i].message));
                 }
                 this.messages = messages;
             }, (error) => {
                 console.log(JSON.stringify(error));
             });
             // Subscribe to messages channel
-            this.webRTCService.subscribe(this.channel, (message) => {
-                this.messages.push(this.createMessage(message));
+            this.pubNubService.subscribe(this.channel).subscribe((event: PubNubEvent) => {
+                this.messages.push(this.createMessage(event.value));
+            }, (error) => {
+                console.log(JSON.stringify(error));
             });
         });
     }
     
     createMessage(message:any):any {
         return {
-            content: message.content.message,
+            content: message && message.content ? message.content.message : message,
             date: message.date
         };
     }
@@ -62,12 +64,12 @@ export class ChatPage {
     sendMessage(messageContent:string) {
        // Don't send an empty message 
        if (messageContent && messageContent !== '') {
-           this.webRTCService.publish(this.channel, {
+           this.pubNubService.publish(this.channel, {
                     content: messageContent,
                     sender_uuid: this.uuid,
                     date: new Date()
-                }, (m) => {
-                    console.log('Published',m);
+                }).subscribe((event: PubNubEvent) => {
+                    console.log('Published', event.value);
                     // Reset the messageContent input
                     (<Control>this.messageForm.controls['message']).updateValueAndValidity();
                 }, (error) => {
