@@ -1,7 +1,7 @@
 import {Platform, Page, NavController, NavParams} from 'ionic-angular';
 import { FORM_DIRECTIVES, FormBuilder,  ControlGroup, Validators, AbstractControl, Control } from 'angular2/common';
 
-import {PubNubService, PubNubEvent} from '../../common/pubnub.service';
+import {PubNubService, PubNubEvent, PubNubEventType} from '../../common/pubnub.service';
 import {WebRTCDatePipe} from '../../common/date.pipe';
 
 @Page({
@@ -42,7 +42,9 @@ export class ChatPage {
             });
             // Subscribe to messages channel
             this.pubNubService.subscribe(this.channel).subscribe((event: PubNubEvent) => {
-                this.messages.push(this.createMessage(event.value));
+                if (event.type === PubNubEventType.MESSAGE) {
+                    this.messages.push(this.createMessage(event.value));
+                }
             }, (error) => {
                 console.log(JSON.stringify(error));
             });
